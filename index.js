@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const YAMLloader = require("./YAMLloader")
-const TYPES = require("./Type")
+const LANG = {}
+const TYPES = require("./Type")(LANG)
 
 const listFiles = (directoryPath, filesPaths = []) => {
     for (const fileName of fs.readdirSync(directoryPath)) {
@@ -16,6 +17,12 @@ const listFiles = (directoryPath, filesPaths = []) => {
                     let type = TYPES[a.type]
                     if (type) type.Add_item(a)
                 }
+        } else if (filePath.split(".").at(-1) == "ftl"){
+            for (let a of fs.readFileSync(filePath, 'utf8').split("\n")){
+                const splited = a.split(" = ")
+                if (splited[1] !== undefined)
+                    LANG[splited[0]] = splited[1].trim()
+            }
         }
     }
     
@@ -23,3 +30,5 @@ const listFiles = (directoryPath, filesPaths = []) => {
 
 listFiles("Resources")
 console.log(TYPES.reaction.Reactions)
+console.log(TYPES.reagent.Reagents)
+//console.log(LANG)
