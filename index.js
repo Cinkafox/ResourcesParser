@@ -1,32 +1,25 @@
-const fs = require('fs/promises');
+const fs = require('fs');
 const path = require('path');
 const YAMLloader = require("./YAMLloader")
 const TYPES = require("./Type")
 
-let PATH = "Resources/Prototypes/Recipes/Reactions/"
-
-const getYAMLFromDirectory = async (directoryPath) => {
-    const filesInDirectory = await fs.readdir(directoryPath);
-    await Promise.all(
-        filesInDirectory.map(async (file) => {
-            const filePath = path.join(directoryPath, file);
-            const stats = await fs.stat(filePath);
-
-            if (stats.isDirectory()) {
-                getYAMLFromDirectory(filePath);
-            } else if (filePath.split(".").at(-1) == "yml") {
-                //console.log(filePath)
-                const obj = YAMLloader(filePath)
-                if (Array.isArray(obj))
-                    for (let a of obj) {
-                        let type = TYPES[a.type]
-                        if (type) type.Add_item(a)
-                    }
-                
-            }
-        })
-    );
-
+const listFiles = (directoryPath, filesPaths = []) => {
+    for (const fileName of fs.readdirSync(directoryPath)) {
+        const filePath = path.join(directoryPath, fileName);
+        const fileStat = fs.statSync(filePath);
+        if (fileStat.isDirectory()) {
+            listFiles(filePath, filesPaths);
+        } else if (filePath.split(".").at(-1) == "yml") {
+            const obj = YAMLloader(filePath)
+            if (Array.isArray(obj))
+                for (let a of obj) {
+                    let type = TYPES[a.type]
+                    if (type) type.Add_item(a)
+                }
+        }
+    }
+    
 };
 
-getYAMLFromDirectory("Resources")
+listFiles("Resources")
+console.log(TYPES.reaction.Reactions)
