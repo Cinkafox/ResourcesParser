@@ -1,7 +1,11 @@
 class reaction{
     Reactions = {}
     Add_item(item){
-        console.log(item)
+        let reactants = {}
+        for (let a of Object.keys(item.reactants)){
+            reactants[a] = item.reactants[a].amount
+        }
+        this.Reactions[item.id] = reactants
     }
 }
 
