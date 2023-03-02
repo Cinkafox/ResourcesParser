@@ -9,7 +9,7 @@ const readAllFiles = (directoryPath,func, filesPaths = []) => {
         if (fileStat.isDirectory()) {
             readAllFiles(filePath, func, filesPaths);
         } else{
-            func(filePath,filePath.split(".").at(-1))
+            func(filePath,filePath.split(".").at(-1),fileName)
         }
     }
 
