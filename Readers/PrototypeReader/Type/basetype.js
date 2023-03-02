@@ -1,14 +1,14 @@
-class tile {
+class base {
     LANG
     constructor(LANG) {
         this.LANG = LANG
     }
-    Titles = {}
+    Items = {}
     Add_item(item) {
         item.name = this.LANG[item.name] ? this.LANG[item.name] : item.name
         item.desc = this.LANG[item.desc] ? this.LANG[item.desc] : item.desc
         item.physicalDesc = this.LANG[item.physicalDesc] ? this.LANG[item.physicalDesc] : item.physicalDesc
-        this.Titles[item.id] = item
+        this.Items[item.id] = item
     }
 }
-module.exports = tile
+module.exports = base

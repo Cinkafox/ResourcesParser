@@ -1,12 +1,12 @@
 const reaction = require("./reaction")
-const reagent = require("./reagent")
-const decal = require("./decal")
-const tile = require("./tile")
+const basetype = require("./basetype")
+
 module.exports = (LANG) =>{
     return {
         reaction: new reaction(LANG),
-        reagent: new reagent(LANG),
-        decal: new decal(LANG),
-        tile: new tile(LANG)
+        reagent: new basetype(LANG),
+        decal: new basetype(LANG),
+        tile: new basetype(LANG),
+        entity: new basetype(LANG)
     }
 }
