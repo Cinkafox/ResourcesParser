@@ -30,5 +30,23 @@ const listFiles = (directoryPath, filesPaths = []) => {
 
 listFiles("Resources")
 console.log(TYPES.reaction.Reactions)
-console.log(TYPES.reagent.Reagents)
+//console.log(TYPES.reagent.Reagents)
 //console.log(LANG)
+
+const getRecept = (name,col=1) =>{
+    const recept = TYPES.reaction.Reactions[name]
+    if(!recept) return {name,col}
+    let recepts = []
+    for (let o of Object.keys(recept.reactants)) recepts.push(getRecept(o, recept.reactants[o]*col/recept.col))
+    return recepts
+}
+
+
+const getInstruction = (recept) =>{
+    if(Array.isArray(recept)){
+        for(let o of recept) getInstruction(o)
+        return
+    }
+    console.log("добавьте " + TYPES.reagent.Reagents[recept.name].name + " " + recept.col +" ЕД. ")
+}
+getInstruction(getRecept("B52", 9))
