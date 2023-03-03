@@ -1,14 +1,13 @@
 const path = require('path');
 const FileReader = require("../../FileReader")
 const GTYPES = require("./Type")
-
+const Paths = require("../../Paths")
 class PrototypeReader{
-    PATH = "Prototypes"
     TYPES
-    constructor(ResPath,Lang) {
+    constructor(Lang) {
         this.TYPES = GTYPES(Lang.Lang)
-        this.PATH = path.join(ResPath)
-        FileReader.readAllFiles(this.PATH, (Path, type) => {
+        const PATH = Paths.PROTOTYPES_PATH
+        FileReader.readAllFiles(PATH, (Path, type) => {
             if (type !== "yml") return
             const obj = FileReader.readYAML(Path)
             if (Array.isArray(obj))

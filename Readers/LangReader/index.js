@@ -1,11 +1,11 @@
 const path = require('path')
 const FileReader = require("../../FileReader")
+const Paths = require("../../Paths")
 class LangReader {
-    PATH = "Locale"
     Locale = "ru-RU"
     Lang = {reaction:[],reagent:[]}
-    constructor(ResPath){
-        this.PATH = path.join(ResPath,this.PATH,this.Locale)
+    constructor(){
+        this.PATH = path.join(Paths.LOCALE_PATH,this.Locale)
         FileReader.readAllFiles(this.PATH,(Path,type)=>{
             if(type !== "ftl") return
             for (let o of FileReader.readTextFile(Path).split("\r\n")){
