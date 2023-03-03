@@ -9,17 +9,18 @@ class MapReader {
         FileReader.readAllFiles(PATH, (Path, type,fileName) => {
             if (type !== "yml") return
             const obj = FileReader.readYAML(Path)
-            this.Maps[fileName.split(".")[0]] = {}
+            let map = {}
             const CR = new ComponentReader(c)
             for (let o of Object.keys(obj.entities)){
-                if (c.TYPES.entity.Items[obj.entities[o].type] == undefined) continue
-                const ComponentsItem = CR.ComponentReader(c.TYPES.entity.Items[obj.entities[o].type])
-                const ComponentsMap = CR.ComponentReader(obj.entities[o])
-                
-                
-                
+                const MapEntityItem = obj.entities[o]
+                if (c.TYPES.entity.Items[MapEntityItem.type] == undefined) continue
+                const ComponentsItem = CR.ComponentReader(c.TYPES.entity.Items[MapEntityItem.type])
+                const ComponentsMap = CR.ComponentReader(MapEntityItem)
+                MapEntityItem.components = {...ComponentsItem,...ComponentsMap}
+                map[o] = MapEntityItem
             }
 
+            this.Maps[fileName.split(".")[0]] = map
         })
     }
 }
