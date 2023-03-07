@@ -11,11 +11,19 @@ class MapReader {
             const obj = FileReader.readYAML(Path)
             let map = {}
             const CR = new ComponentReader(c)
+            let Len = Object.keys(obj.entities).length
             for (let o of Object.keys(obj.entities)){
                 const MapEntityItem = obj.entities[o]
-                if (c.TYPES.entity.Items[MapEntityItem.type] == undefined) continue
                 const ComponentsItem = CR.ComponentReader(c.TYPES.entity.Items[MapEntityItem.type])
                 const ComponentsMap = CR.ComponentReader(MapEntityItem)
+                if (ComponentsMap.GridAtmosphere) 
+                    for (let o of Object.keys(ComponentsMap.GridAtmosphere.tiles)){
+                        let tiles = ComponentsMap.GridAtmosphere.tiles
+                        let tile = c.TYPES.tile.Items[obj.tilemap[tiles[o]]]
+
+                        if(tile)
+                        console.log(tile, obj.tilemap[tiles[o]])
+                    }
                 MapEntityItem.components = {...ComponentsItem,...ComponentsMap}
                 map[o] = MapEntityItem
             }
